@@ -1,0 +1,33 @@
+{{- if .Values.controller.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "cavisson-platform.fullname" . }}-controller
+  labels:
+    {{- include "cavisson-platform.controllerLabels" . | nindent 4 }}
+spec:
+  type: {{ .Values.controller.service.type }}
+  ports:
+  - port: {{ .Values.controller.service.port }}
+    targetPort: http
+    protocol: TCP
+    name: http
+    {{- if and (eq .Values.controller.service.type "NodePort") .Values.controller.service.nodePort }}
+    nodePort: {{ .Values.controller.service.nodePort }}
+    {{- end }}
+  - port: 8009
+    targetPort: tomcat
+    protocol: TCP
+    name: tomcat
+  - port: {{ .Values.controller.service.dataPort | default 443 }}
+    targetPort: data-https
+    protocol: TCP
+    name: data-https
+  - port: {{ .Values.controller.service.uiPort | default 4444 }}
+    targetPort: ui-https
+    protocol: TCP
+    name: ui-https
+  selector:
+    {{- include "cavisson-platform.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: controller
+{{- end }}

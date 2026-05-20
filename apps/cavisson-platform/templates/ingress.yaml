@@ -1,0 +1,106 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullname    := include "cavisson-platform.fullname" . -}}
+{{- $svcName     := printf "%s-controller" $fullname -}}
+{{- $uiHost      := include "cavisson-platform.uiHost" . -}}
+{{- $dataHost    := include "cavisson-platform.dataHost" . -}}
+{{- $uiPort      := .Values.controller.service.uiPort   | default 4444 -}}
+{{- $dataPort    := .Values.controller.service.dataPort | default 443  -}}
+---
+# UI (Portal) Ingress — routes ui.<tenantId>.<baseDomain>:443 → controller port 4444
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $fullname }}-ui
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "cavisson-platform.labels" . | nindent 4 }}
+    app.kubernetes.io/component: ingress-ui
+  annotations:
+    {{- with .Values.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- if .Values.ingress.tls.certManager.enabled }}
+    {{- if eq .Values.ingress.tls.certManager.issuerKind "ClusterIssuer" }}
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.tls.certManager.issuerName | quote }}
+    {{- else }}
+    cert-manager.io/issuer: {{ .Values.ingress.tls.certManager.issuerName | quote }}
+    {{- end }}
+    {{- end }}
+    {{- if .Values.ingress.externalDns.enabled }}
+    external-dns.alpha.kubernetes.io/hostname: {{ $uiHost | quote }}
+    external-dns.alpha.kubernetes.io/ttl: {{ .Values.ingress.externalDns.ttl | default "60" | quote }}
+    {{- end }}
+    {{- with .Values.ingress.ui.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  {{- if .Values.ingress.className }}
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- end }}
+  {{- if .Values.ingress.tls.enabled }}
+  tls:
+  - hosts:
+    - {{ $uiHost | quote }}
+    secretName: {{ include "cavisson-platform.uiTlsSecret" . }}
+  {{- end }}
+  rules:
+  - host: {{ $uiHost | quote }}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ $svcName }}
+            port:
+              number: {{ $uiPort }}
+---
+# Data Collection Ingress — routes data.<tenantId>.<baseDomain>:443 → controller port 443
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $fullname }}-data
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "cavisson-platform.labels" . | nindent 4 }}
+    app.kubernetes.io/component: ingress-data
+  annotations:
+    {{- with .Values.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- if .Values.ingress.tls.certManager.enabled }}
+    {{- if eq .Values.ingress.tls.certManager.issuerKind "ClusterIssuer" }}
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.tls.certManager.issuerName | quote }}
+    {{- else }}
+    cert-manager.io/issuer: {{ .Values.ingress.tls.certManager.issuerName | quote }}
+    {{- end }}
+    {{- end }}
+    {{- if .Values.ingress.externalDns.enabled }}
+    external-dns.alpha.kubernetes.io/hostname: {{ $dataHost | quote }}
+    external-dns.alpha.kubernetes.io/ttl: {{ .Values.ingress.externalDns.ttl | default "60" | quote }}
+    {{- end }}
+    {{- with .Values.ingress.data.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  {{- if .Values.ingress.className }}
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- end }}
+  {{- if .Values.ingress.tls.enabled }}
+  tls:
+  - hosts:
+    - {{ $dataHost | quote }}
+    secretName: {{ include "cavisson-platform.dataTlsSecret" . }}
+  {{- end }}
+  rules:
+  - host: {{ $dataHost | quote }}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ $svcName }}
+            port:
+              number: {{ $dataPort }}
+{{- end }}

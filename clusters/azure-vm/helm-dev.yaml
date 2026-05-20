@@ -1,0 +1,20 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+
+metadata:
+  name: helm-nginx-dev
+  namespace: flux-system
+
+spec:
+  interval: 1m
+
+  path: ./apps/helm-nginx/overlays/dev
+
+  prune: true
+
+  dependsOn:
+    - name: tofu-dev
+
+  sourceRef:
+    kind: GitRepository
+    name: flux-system

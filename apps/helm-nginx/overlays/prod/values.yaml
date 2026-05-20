@@ -1,0 +1,12 @@
+controller:
+  replicaCount: 4
+
+  service:
+    type: LoadBalancer
+
+  extraEnvs:
+    - name: ENVIRONMENT
+      value: prod
+
+    - name: LOG_LEVEL
+      value: info

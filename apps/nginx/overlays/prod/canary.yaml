@@ -1,0 +1,39 @@
+apiVersion: flagger.app/v1beta1
+kind: Canary
+
+metadata:
+  name: nginx
+
+spec:
+  provider: nginx
+
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: nginx
+
+  ingressRef:
+    apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    name: nginx
+
+  service:
+    port: 80
+    targetPort: 80
+
+  analysis:
+    interval: 30s
+    threshold: 5
+    stepWeight: 10
+    maxWeight: 50
+
+    metrics:
+    - name: request-success-rate
+      thresholdRange:
+        min: 99
+      interval: 1m
+
+    - name: request-duration
+      thresholdRange:
+        max: 500
+      interval: 30s
