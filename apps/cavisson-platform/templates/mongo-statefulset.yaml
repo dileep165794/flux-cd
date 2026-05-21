@@ -19,6 +19,10 @@ spec:
         {{- include "cavisson-platform.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: mongo
     spec:
+      securityContext:
+        runAsUser: 999
+        runAsGroup: 999
+        fsGroup: 999
       containers:
       - name: mongo
         image: "{{ .Values.mongo.image.repository }}:{{ .Values.mongo.image.tag }}"
