@@ -28,21 +28,21 @@ spec:
   values:
     persistence:
       primary:
-        storageClass: standard
+        storageClass: managed-csi
         accessMode: ReadWriteOnce
 
     mongo:
       persistence:
         enabled: true
-        storageClass: standard
+        storageClass: managed-csi
         accessMode: ReadWriteOnce
 
     postgres:
       persistence:
         enabled: true
-        storageClass: standard
+        storageClass: managed-csi
         accessMode: ReadWriteOnce
 
     redis:
       persistence:
-        storageClass: standard
+        storageClass: managed-csi
