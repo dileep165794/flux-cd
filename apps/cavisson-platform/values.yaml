@@ -57,7 +57,7 @@ postgres:
   database: "cavisson"
   persistence:
     enabled: true
-    storageClass: standard
+    storageClass: managed-csi
     accessMode: ReadWriteOnce
     size: 50Gi
   resources:
@@ -70,11 +70,13 @@ postgres:
   # Environment variables for PostgreSQL container
   env:
     - name: POSTGRES_DB
-      value: "test"
+      value: "cavisson"
     - name: POSTGRES_USER
       value: "cavisson"
     - name: POSTGRES_PASSWORD
       value: "cavisson"
+    - name: PGDATA                               # ← add this line
+      value: /var/lib/postgresql/data/pgdata # ← add this line
 
 # MongoDB configuration
 mongo:
@@ -90,7 +92,7 @@ mongo:
   rootPassword: "admin"
   persistence:
     enabled: true
-    storageClass: standard
+    storageClass: managed-csi
     accessMode: ReadWriteOnce
     size: 50Gi
   resources:
@@ -120,7 +122,7 @@ redis:
   password: ""
   persistence:
     enabled: false
-    storageClass: standard
+    storageClass: managed-csi
     accessMode: ReadWriteOnce
     size: 10Gi
   resources:
@@ -136,7 +138,7 @@ persistence:
   # Primary PVC for shared data
   primary:
     enabled: true
-    storageClass: standard
+    storageClass: managed-csi
     accessMode: ReadWriteOnce #ReadWriteMany
     size: 100Gi
     name: "cavisson-pvc-primary"
