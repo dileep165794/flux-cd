@@ -6,7 +6,6 @@ namespace: nginx-prod
 resources:
   - namespace.yaml
   - ../../base
-  - canary.yaml
   - ingress.yaml
 
 patches:
