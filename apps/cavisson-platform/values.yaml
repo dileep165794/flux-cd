@@ -35,11 +35,11 @@ controller:
     uiPort: 4444    # UI / Portal service (HTTPS)
   resources:
     requests:
-      cpu: 500m
+      cpu: 1000m
       memory: 1Gi
     limits:
-      cpu: 1000m
-      memory: 6Gi
+      cpu: 2000m
+      memory: 8Gi
   env: []
 
 # PostgreSQL configuration
