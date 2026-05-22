@@ -15,7 +15,7 @@ controller:
   replicaCount: 1
   image:
     repository: cloud-build.cav-test.com/cav-test-controller
-    tag: 4.15.0-B111
+    tag: 4.15.0.B111
     pullPolicy: IfNotPresent
   # Init container configuration for database setup
   initContainer:
