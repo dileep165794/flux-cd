@@ -11,38 +11,44 @@ spec:
     createNamespace: true
     remediation:
       retries: 4
-
   upgrade:
     remediation:
       retries: 3
 
+  dependsOn:
+    - name: infrastructure
+      namespace: flux-system
+
   chart:
     spec:
-      chart: ./apps/cavisson-platform
-      reconcileStrategy: Revision
+      chart: cavisson-platform              # ← chart name in Artifact Keeper
+      version: "0.1.0"                      # ← version you pushed in Step 2
       sourceRef:
-        kind: GitRepository
-        name: flux-system
+        kind: HelmRepository
+        name: artifact-keeper               # ← points to Step 3
         namespace: flux-system
 
   values:
+    imagePullSecrets:
+      - name: artifact-keeper-auth
+
+    controller:
+      image:
+        repository: cloud-build.cav-test.com/cav-test-controller
+        tag: 4.15.0.B111
+        pullPolicy: IfNotPresent
+
+    operator:
+      images:
+        executionController: "cloud-build.cav-test.com/cavisson-operator:latest"
+        generator: "cloud-build.cav-test.com/cavisson-operator:latest"
+
     persistence:
       primary:
         storageClass: managed-csi
-        accessMode: ReadWriteOnce
-
-    mongo:
-      persistence:
-        enabled: true
-        storageClass: managed-csi
-        accessMode: ReadWriteOnce
-
     postgres:
       persistence:
-        enabled: true
         storageClass: managed-csi
-        accessMode: ReadWriteOnce
-
-    redis:
+    mongo:
       persistence:
         storageClass: managed-csi
