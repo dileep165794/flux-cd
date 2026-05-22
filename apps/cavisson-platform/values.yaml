@@ -14,8 +14,8 @@ controller:
   enabled: true
   replicaCount: 1
   image:
-    repository: cavissonsystem/cav-test-controller
-    tag: 4.16.0.B1
+    repository: cloud-build.cav-test.com/cav-test-controller
+    tag: 4.15.0.B111
     pullPolicy: IfNotPresent
   # Init container configuration for database setup
   initContainer:
