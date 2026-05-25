@@ -191,7 +191,7 @@ ingress:
     # cert-manager: annotates each Ingress to trigger automatic certificate issuance.
     # Requires cert-manager installed in the cluster.
     certManager:
-      enabled: true
+      enabled: false
       issuerName: "letsencrypt-production"
       issuerKind: "ClusterIssuer"   # ClusterIssuer (cluster-wide) or Issuer (namespace-scoped)
     # Override auto-generated TLS secret names.
