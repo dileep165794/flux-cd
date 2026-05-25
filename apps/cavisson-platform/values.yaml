@@ -192,7 +192,7 @@ ingress:
     # Requires cert-manager installed in the cluster.
     certManager:
       enabled: true
-      issuerName: "letsencrypt-prod"
+      issuerName: "letsencrypt-production"
       issuerKind: "ClusterIssuer"   # ClusterIssuer (cluster-wide) or Issuer (namespace-scoped)
     # Override auto-generated TLS secret names.
     # Defaults: <tenantId>-ui-tls  and  <tenantId>-data-tls
