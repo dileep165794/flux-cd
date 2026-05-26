@@ -39,7 +39,7 @@ controller:
       memory: 1Gi
     limits:
       cpu: 2000m
-      memory: 8Gi
+      memory: 13Gi
   env: 
     - name: JAVA_TOOL_OPTIONS
       value: "-Xms2g -Xmx6g"
