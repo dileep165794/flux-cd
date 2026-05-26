@@ -6,10 +6,6 @@ metadata:
 spec:
   interval: 5m
   timeout: 25m
-  template:
-    spec:
-      imagePullSecrets:
-        - name: cav-regcred
   install:
     createNamespace: true
     remediation:
