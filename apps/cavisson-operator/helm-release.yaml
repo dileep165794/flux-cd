@@ -21,5 +21,9 @@ spec:
     createNamespace: true
 
   values:
+    image:
+      repository: cloud-build.cav-test.com/cavisson-operator
+      tag: "*"
+
     imagePullSecrets:
       - name: artifact-keeper-auth
