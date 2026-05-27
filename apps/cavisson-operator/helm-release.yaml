@@ -6,6 +6,12 @@ metadata:
 
 spec:
   interval: 1m
+  
+  install:
+    crds: CreateReplace
+
+  upgrade:
+    crds: CreateReplace
 
   chart:
     spec:
