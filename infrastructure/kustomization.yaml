@@ -3,5 +3,5 @@ kind: Kustomization
 
 resources:
 - ingress
-- cert-manager
 - metallb
+- cert-manager
