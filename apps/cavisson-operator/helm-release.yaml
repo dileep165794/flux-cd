@@ -23,7 +23,7 @@ spec:
   values:
     image:
       repository: cloud-build.cav-test.com/cavisson-operator
-      tag: "*"
+      tag: "4.15.0.B111"
 
     imagePullSecrets:
       - name: artifact-keeper-auth
