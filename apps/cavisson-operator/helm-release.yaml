@@ -6,8 +6,9 @@ metadata:
 
 spec:
   interval: 1m
-  
+
   install:
+    createNamespace: true
     crds: CreateReplace
 
   upgrade:
@@ -22,9 +23,6 @@ spec:
         kind: HelmRepository
         name: artifact-keeper-operator
         namespace: flux-system
-
-  install:
-    createNamespace: true
 
   values:
     image:
