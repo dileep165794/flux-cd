@@ -17,7 +17,7 @@ spec:
   chart:
     spec:
       chart: cavisson-operator
-      version: "4.15.0-B111"
+      version: "4.15.0-B0"
 
       sourceRef:
         kind: HelmRepository
