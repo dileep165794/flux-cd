@@ -14,8 +14,8 @@ controller:
   enabled: true
   replicaCount: 1
   image:
-    repository: cavissonsystem/cav-test-controller
-    tag: 4.16.0.B1
+    repository: cloud-build.cav-test.com/cav-test-controller
+    tag: 4.15.0.B111
     pullPolicy: IfNotPresent
   # Init container configuration for database setup
   initContainer:
@@ -35,12 +35,14 @@ controller:
     uiPort: 4444    # UI / Portal service (HTTPS)
   resources:
     requests:
-      cpu: 500m
+      cpu: 1000m
       memory: 1Gi
     limits:
-      cpu: 1000m
-      memory: 6Gi
-  env: []
+      cpu: 2000m
+      memory: 13Gi
+  env: 
+    - name: JAVA_TOOL_OPTIONS
+      value: "-Xms2g -Xmx6g"
 
 # PostgreSQL configuration
 postgres:
@@ -192,7 +194,7 @@ ingress:
     # Requires cert-manager installed in the cluster.
     certManager:
       enabled: false
-      issuerName: "letsencrypt-prod"
+      issuerName: "letsencrypt-production"
       issuerKind: "ClusterIssuer"   # ClusterIssuer (cluster-wide) or Issuer (namespace-scoped)
     # Override auto-generated TLS secret names.
     # Defaults: <tenantId>-ui-tls  and  <tenantId>-data-tls
