@@ -3,33 +3,23 @@ kind: HelmRelease
 metadata:
   name: cavisson-operator
   namespace: cavisson-operator
-spec:
-  interval: 5m
-  timeout: 10m
 
-  install:
-    createNamespace: true
-    remediation:
-      retries: 3
-  upgrade:
-    remediation:
-      retries: 3
+spec:
+  interval: 1m
 
   chart:
     spec:
       chart: cavisson-operator
-      version: ">=4.15.0-0 <5.0.0"
-      interval: 1m
+      version: "4.15.0-B111"
+
       sourceRef:
         kind: HelmRepository
         name: artifact-keeper-operator
         namespace: flux-system
 
-  values:
-    image:
-      repository: cloud-build.cav-test.com/cavisson-operator   # ← your registry
-      tag: "4.15.0-B111"                                        # ← your tag
-      pullPolicy: IfNotPresent
+  install:
+    createNamespace: true
 
+  values:
     imagePullSecrets:
-      - name: artifact-keeper-auth          # ← so kubelet can pull from your registry
+      - name: artifact-keeper-auth
