@@ -23,8 +23,33 @@ spec:
         kind: HelmRepository
         name: artifact-keeper-platform
         namespace: flux-system
-
+  
   values:
+    persistence:
+      primary:
+        accessMode: ReadWriteMany
+        storageClass: azurefile-csi
+        size: 100Gi
+    mongo:
+      persistence:
+        accessMode: ReadWriteOnce
+        storageClass: managed-csi
+    postgres:
+      env:
+        - name: POSTGRES_DB
+          value: test
+        - name: POSTGRES_USER
+          value: cavisson
+        - name: POSTGRES_PASSWORD
+          value: cavisson
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+      persistence:
+        accessMode: ReadWriteOnce
+        storageClass: managed-csi
+    redis:
+      persistence:
+        storageClass: managed-csi
     image:
       repository: cloud-build.cav-test.com/cavisson-platform
       tag: "4.15.1.B0"
