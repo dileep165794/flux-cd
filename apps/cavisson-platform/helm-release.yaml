@@ -21,7 +21,7 @@ spec:
 
       sourceRef:
         kind: HelmRepository
-        name: artifact-keeper-platform
+        name: artifact-keeper-operator
         namespace: flux-system
 
   values:
