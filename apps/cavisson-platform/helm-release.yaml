@@ -1,0 +1,33 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cavisson-platform
+  namespace: cavisson-tenant1
+
+spec:
+  interval: 1m
+
+  install:
+    createNamespace: true
+    crds: CreateReplace
+
+  upgrade:
+    crds: CreateReplace
+
+  chart:
+    spec:
+      chart: cavisson-platform
+      version: "4.15.1-B0"
+
+      sourceRef:
+        kind: HelmRepository
+        name: artifact-keeper-platform
+        namespace: flux-system
+
+  values:
+    image:
+      repository: cloud-build.cav-test.com/cavisson-platform
+      tag: "4.15.1.B0"
+
+    imagePullSecrets:
+      - name: artifact-keeper-auth
