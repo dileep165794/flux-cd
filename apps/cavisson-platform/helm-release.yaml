@@ -55,8 +55,8 @@ spec:
     persistence:
       primary:
         enabled: true
-        accessMode: ReadWriteMany
-        storageClass: azurefile-csi
+        accessMode: ReadWriteOnce
+        storageClass: managed-csi
         size: 100Gi
 
     # Databases stay RWO on managed disk. Do NOT put Mongo/Postgres data
