@@ -44,13 +44,6 @@ spec:
                   runAsGroup: 999
 
   values:
-    controller:
-      image:
-        repository: cloud-build.cav-test.com/cavisson-platform
-        tag: "4.15.1.B0.1"
-      imagePullSecrets:
-        - name: artifact-keeper-auth   # must ALSO exist as a secret in ns cavisson-tenant1
-
     # Shared application volume — multi-node => RWX => must be Azure Files,
     # NOT a managed disk (managed disks cannot do ReadWriteMany)...
     persistence:
@@ -98,6 +91,12 @@ spec:
     # JVM, also add a heap cap via controller.env (e.g. JAVA_OPTS -Xmx / 
     # -XX:MaxRAMPercentage) so it respects the container limit.
     controller:
+      image:
+        repository: cloud-build.cav-test.com/cavisson-platform
+        tag: "4.15.1.B0.1"
+      imagePullSecrets:
+        - name: artifact-keeper-auth   # must ALSO exist as a secret in ns cavisson-tenant1
+
       resources:
         requests:
           cpu: 2000m
