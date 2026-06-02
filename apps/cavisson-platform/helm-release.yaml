@@ -111,8 +111,8 @@ spec:
     operator:
       # Docker images for operator-managed pods
       images:
-        executionController: "cloud-build.cav-test.com/cav-k8s-exec-controller:4.15.1.B0.1"
-        generator: "cloud-build.cav-test.com/cav-k8s-exec-generator:4.15.1.B0.1"
+        executionController: "cloud-build.cav-test.com/cav-test-controller:4.15.1.B0.1"
+        generator: "cavissonsystem/cav-k8s-exec-generator:latest"
   
       # PVC name to use for operator-managed pods
       pvcName: "cavisson-pvc-primary"
