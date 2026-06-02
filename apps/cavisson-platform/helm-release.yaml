@@ -107,3 +107,15 @@ spec:
       # env:
       #   - name: JAVA_OPTS
       #     value: "-XX:MaxRAMPercentage=75.0"
+
+    operator:
+      # Docker images for operator-managed pods
+      images:
+        executionController: "cloud-build.cav-test.com/cav-k8s-exec-controller:4.15.1.B0.1"
+        generator: "cloud-build.cav-test.com/cav-k8s-exec-generator:4.15.1.B0.1"
+  
+      # PVC name to use for operator-managed pods
+      pvcName: "cavisson-pvc-primary"
+  
+      # Image pull policy for operator-managed pods
+      imagePullPolicy: "IfNotPresent"
