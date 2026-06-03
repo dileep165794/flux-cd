@@ -119,3 +119,12 @@ spec:
   
       # Image pull policy for operator-managed pods
       imagePullPolicy: "IfNotPresent"
+
+      # Resources assigned to each operator-created exec-controller pod
+      execControllerResources:
+        requests:
+          cpu: "1"
+          memory: "2Gi"
+        limits:
+          cpu: "1"
+          memory: "2Gi"
