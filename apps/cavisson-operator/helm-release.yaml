@@ -17,7 +17,7 @@ spec:
   chart:
     spec:
       chart: cavisson-operator
-      version: "4.15.1-B0"
+      version: "4.15.1-B0.2"
 
       sourceRef:
         kind: HelmRepository
@@ -25,9 +25,9 @@ spec:
         namespace: flux-system
 
   values:
-    image:
-      repository: cloud-build.cav-test.com/cavisson-operator
-      tag: "4.15.1.B0.1"
+    # image:
+    #   repository: cloud-build.cav-test.com/cavisson-operator
+    #   tag: "4.15.1.B0.1"
 
     imagePullSecrets:
       - name: artifact-keeper-auth
