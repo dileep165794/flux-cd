@@ -25,9 +25,9 @@ spec:
         namespace: flux-system
 
   values:
-    # image:
-    #   repository: cloud-build.cav-test.com/cavisson-operator
-    #   tag: "4.15.1.B0.1"
+    image:
+      repository: cloud-build.cav-test.com/cavisson-operator
+      tag: "4.15.1.B0.2"
 
     imagePullSecrets:
       - name: artifact-keeper-auth
