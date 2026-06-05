@@ -11,7 +11,7 @@ spec:
     branch: main
   #secretRef:
   #  name: flux-system
-  url: https://git@github.com/dileep165794/flux-cd
+  url: https://github.com/dileep165794/flux-cd
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
