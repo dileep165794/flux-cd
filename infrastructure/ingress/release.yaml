@@ -5,9 +5,10 @@ metadata:
   name: ingress-nginx
   namespace: ingress-nginx
 
-ingress:
-  annotations:
-    service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+values:
+  ingress:
+    annotations:
+      service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
 
 
 spec:
