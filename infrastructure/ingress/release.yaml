@@ -4,7 +4,8 @@ kind: HelmRelease
 metadata:
   name: ingress-nginx
   namespace: ingress-nginx
-  annotations: service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+  annotations: 
+    service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
 
 spec:
   interval: 5m
