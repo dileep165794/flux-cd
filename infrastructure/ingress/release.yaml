@@ -17,8 +17,8 @@ spec:
         name: ingress-nginx
         namespace: flux-system
 
-values:
-  ingress:
-    annotations:
-      service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+  values:
+    ingress:
+      annotations:
+        service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
 
