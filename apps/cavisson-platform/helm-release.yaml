@@ -44,6 +44,7 @@ spec:
                   runAsGroup: 999
 
   values:
+    baseDomain: "saas.cav-test.com"
     # Shared application volume — multi-node => RWX => must be Azure Files,
     # NOT a managed disk (managed disks cannot do ReadWriteMany)...
     persistence:
