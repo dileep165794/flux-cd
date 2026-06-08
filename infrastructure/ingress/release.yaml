@@ -5,12 +5,6 @@ metadata:
   name: ingress-nginx
   namespace: ingress-nginx
 
-values:
-  ingress:
-    annotations:
-      service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
-
-
 spec:
   interval: 5m
 
@@ -22,3 +16,9 @@ spec:
         kind: HelmRepository
         name: ingress-nginx
         namespace: flux-system
+
+values:
+  ingress:
+    annotations:
+      service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+
