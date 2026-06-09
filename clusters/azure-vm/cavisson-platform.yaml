@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1m
-   timeout: 30m
+  timeout: 30m
   path: ./apps/cavisson-platform
   prune: true
   sourceRef:
