@@ -5,7 +5,7 @@ metadata:
   namespace: cavisson-tenant1
 spec:
   interval: 1m
-
+  timeout: 30m
   install:
     createNamespace: true
     crds: CreateReplace
