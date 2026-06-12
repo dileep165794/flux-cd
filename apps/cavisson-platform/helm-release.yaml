@@ -45,6 +45,9 @@ spec:
 
   values:
     baseDomain: "saas.cav-test.com"
+    ingress:
+      annotations:
+        external-dns.alpha.kubernetes.io/hostname: ui.tenant1.saas.cav-test.com
     # Shared application volume — multi-node => RWX => must be Azure Files,
     # NOT a managed disk (managed disks cannot do ReadWriteMany)...
     persistence:
