@@ -1,0 +1,2 @@
+namespace: {{Value.namespace}}
+replicas: {{Value.replicaCount}}
