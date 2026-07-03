@@ -4,23 +4,23 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
 metadata:
   name: flux-system
-  namespace: flux-system
+  namespace: {{Value.namespace}}
 spec:
   interval: 1m0s
   ref:
-    branch: main
+    branch: {{Value.manifestBranch}}
   #secretRef:
   #  name: flux-system
-  url: https://github.com/dileep165794/flux-cd
+  url: {{Value.manifestRepo}}
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: flux-system
-  namespace: flux-system
+  namespace: {{Value.namespace}}
 spec:
   interval: 10m0s
-  path: ./clusters/azure-vm
+  path: ./clusters/{{Value.envName}}
   prune: true
   sourceRef:
     kind: GitRepository
