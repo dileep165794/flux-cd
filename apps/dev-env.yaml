@@ -1,0 +1,7 @@
+name: test-app                          
+version: {{Value.appVersion}}   
+namespace: {{Value.namespace}}  
+replicas: {{Value.replicaCount}}
+image: 
+  repository: {{Value.imageRepository}}
+  tag: {{Value.imageTag}}  
