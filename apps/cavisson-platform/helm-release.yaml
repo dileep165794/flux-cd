@@ -96,8 +96,8 @@ spec:
     # -XX:MaxRAMPercentage) so it respects the container limit.
     controller:
       image:
-        repository: cloud-build.cav-test.com/cav-test-controller
-        tag: "4.15.1.B0.3"
+        repository: xyz123.com
+        tag: 1.2.02
       imagePullSecrets:
         - name: artifact-keeper-auth   # must ALSO exist as a secret in ns cavisson-tenant1
 
