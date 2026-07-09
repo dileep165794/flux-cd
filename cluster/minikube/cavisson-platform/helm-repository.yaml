@@ -1,0 +1,11 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: artifact-keeper-platform
+  namespace: flux-system
+spec:
+  type: oci
+  interval: 5m
+  url: oci://cloud-build.cav-test.com/cavisson-platform-helm
+  secretRef:
+    name: artifact-keeper-auth

@@ -1,0 +1,134 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cavisson-platform
+  namespace: cavisson-tenant1
+spec:
+  interval: 1m
+  timeout: 30m
+  install:
+    createNamespace: true
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
+
+  # ---- SOURCE: OCI HelmRepository (NOT the git path) ----
+  # This is the single source of truth. Do not point chart.spec at the
+  # GitRepository ./apps/cavisson-platform path — that folder holds Flux
+  # manifests, not a packaged chart, and causes the recurring
+  # "Chart.yaml: no such file or directory" failure.
+  chart:
+    spec:
+      chart: cavisson-platform
+      version: "4.15.1-B0.2"
+      sourceRef:
+        kind: HelmRepository
+        name: artifact-keeper-platform
+        namespace: flux-system
+
+  # ---- DURABLE FIX for the mongo journal permission crash ----
+  # The chart exposes no securityContext/fsGroup, so inject it here.
+  # This survives every reconcile (a live `kubectl patch` does NOT).
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: StatefulSet
+              name: cavisson-platform-mongo
+            patch: |
+              - op: add
+                path: /spec/template/spec/securityContext
+                value:
+                  fsGroup: 999
+                  runAsUser: 999
+                  runAsGroup: 999
+
+  values:
+    baseDomain: "saas.cav-test.com"
+    ingress:
+      annotations:
+        external-dns.alpha.kubernetes.io/hostname: ui.tenant1.saas.cav-test.com
+    # Shared application volume — multi-node => RWX => must be Azure Files,
+    # NOT a managed disk (managed disks cannot do ReadWriteMany)...
+    persistence:
+      primary:
+        enabled: true
+        accessMode: ReadWriteMany
+        storageClass: azurefile-csi-nfs
+        size: 100Gi
+
+    # Databases stay RWO on managed disk. Do NOT put Mongo/Postgres data
+    # on Azure Files — SMB locking/fsync semantics corrupt them.
+    mongo:
+      persistence:
+        enabled: true
+        accessMode: ReadWriteOnce
+        storageClass: managed-csi
+        size: 50Gi
+
+    postgres:
+      env:
+        - name: POSTGRES_DB
+          value: test
+        - name: POSTGRES_USER
+          value: cavisson
+        - name: POSTGRES_PASSWORD
+          value: cavisson
+        # Subdir avoids initdb refusing the mount root because of lost+found.
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+      persistence:
+        enabled: true
+        accessMode: ReadWriteOnce
+        storageClass: managed-csi
+        size: 50Gi
+
+    redis:
+      persistence:
+        storageClass: managed-csi
+
+    # ---- Controller resources ----
+    # The controller OOMKills (exit 137) at an 8Gi limit and the current
+    # mempool node only has ~11.5Gi allocatable. After resizing the mempool
+    # node pool to a larger SKU, raise the limit here to fit (16Gi shown as a
+    # target; keep request below node allocatable). If the app is an uncapped
+    # JVM, also add a heap cap via controller.env (e.g. JAVA_OPTS -Xmx / 
+    # -XX:MaxRAMPercentage) so it respects the container limit.
+    controller:
+      image:
+        repository: cloud-build.cav-test.com/cav-test-controller
+        tag: "4.15.1.B0.3"
+      imagePullSecrets:
+        - name: artifact-keeper-auth   # must ALSO exist as a secret in ns cavisson-tenant1
+
+      resources:
+        requests:
+          cpu: 2000m
+          memory: 4Gi
+        limits:
+          cpu: 2000m
+          memory: 16Gi   # <-- set to what the resized node can actually give
+      # env:
+      #   - name: JAVA_OPTS
+      #     value: "-XX:MaxRAMPercentage=75.0"
+
+    operator:
+      # Docker images for operator-managed pods
+      images:
+        executionController: "cloud-build.cav-test.com/cav-test-controller:4.15.1.B0.3"
+        generator: "cavissonsystem/cav-k8s-exec-generator:latest"
+  
+      # PVC name to use for operator-managed pods
+      pvcName: "cavisson-pvc-primary"
+  
+      # Image pull policy for operator-managed pods
+      imagePullPolicy: "IfNotPresent"
+
+      # Resources assigned to each operator-created exec-controller pod
+      execControllerResources:
+        requests:
+          cpu: "1"
+          memory: "2Gi"
+        limits:
+          cpu: "1"
+          memory: "2Gi"
