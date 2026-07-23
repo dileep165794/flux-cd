@@ -8,10 +8,10 @@ metadata:
 spec:
   interval: 1m0s
   ref:
-    branch: main
+    branch: Sandeep/BoutiqueCoupon
   #secretRef:
   #  name: flux-system
-  url: https://github.com/dileep165794/flux-cd
+  url: https://github.com/Shiv0308/microservices-demo/
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -20,7 +20,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  path: ./clusters/azure-vm
+  path: ./kubernetes-manifests
   prune: true
   sourceRef:
     kind: GitRepository
