@@ -16,12 +16,13 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: flux-system
+  name: boutique-apps
   namespace: flux-system
 spec:
   interval: 10m0s
   path: ./kubernetes-manifests
   prune: true
+  targetNamespace: boutique
   sourceRef:
     kind: GitRepository
     name: flux-system
