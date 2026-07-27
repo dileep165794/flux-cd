@@ -1,0 +1,58 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: flux-system
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  ref:
+    branch: Sandeep/BoutiqueCoupon
+  #secretRef:
+  #  name: flux-system
+  url: https://github.com/Shiv0308/microservices-demo/
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: boutique-apps
+  namespace: flux-system
+spec:
+  interval: 10m0s
+  path: ./kubernetes-manifests
+  prune: true
+  targetNamespace: boutique
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+
+---
+# 3. Personal Source: Your Flux Configuration Repo
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: flux-system
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  ref:
+    branch: main
+  # Removed secretRef here
+  url: https://github.com/dileep165794/flux-cd.git
+
+---
+# 4. Deploy Canary Configuration
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: boutique-canary
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  path: ./apps/boutique
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  dependsOn:
+    - name: boutique-apps
