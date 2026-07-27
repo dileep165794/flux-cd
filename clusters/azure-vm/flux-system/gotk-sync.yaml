@@ -11,10 +11,8 @@ spec:
     branch: Sandeep/BoutiqueCoupon
   #secretRef:
   #  name: flux-system
-  url: https://github.com/Shiv0388/microservices-demo.git
-
+  url: https://github.com/Shiv0308/microservices-demo/
 ---
-# 2. Deploy Boutique Application Manifests
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
