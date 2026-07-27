@@ -1,4 +1,4 @@
-# Clean Multi-Source Manifest - BOUTIQUE ONLY
+# Multi-source Flux Synchronization Manifest
 ---
 # 1. External Source: Boutique Application Repo
 apiVersion: source.toolkit.fluxcd.io/v1
@@ -10,8 +10,7 @@ spec:
   interval: 1m0s
   ref:
     branch: Sandeep/BoutiqueCoupon
-  secretRef:
-    name: flux-system
+  # Removed secretRef here
   url: https://github.com/Shiv0388/microservices-demo.git
 
 ---
@@ -31,7 +30,7 @@ spec:
     name: boutique-source
 
 ---
-# 3. Personal Source: Your Config Repo (for Canary rules)
+# 3. Personal Source: Your Flux Configuration Repo
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
 metadata:
@@ -41,12 +40,11 @@ spec:
   interval: 1m0s
   ref:
     branch: main
-  secretRef:
-    name: flux-system
+  # Removed secretRef here
   url: https://github.com/dileep165794/flux-cd.git
 
 ---
-# 4. Deploy Canary Configuration from Your Personal Repo
+# 4. Deploy Canary Configuration
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
