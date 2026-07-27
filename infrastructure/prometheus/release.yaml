@@ -1,0 +1,22 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+
+metadata:
+  name: kube-prometheus-stack
+  namespace: monitoring
+
+spec:
+  interval: 5m
+  timeout: 10m         # add this
+  install:
+    timeout: 10m       # and this
+
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      version: "58.2.2"
+
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+        namespace: flux-system
