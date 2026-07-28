@@ -26,7 +26,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: jetstack
-        namespace: flux-personal-source
+        namespace: cert-manager
   install:
     crds: Create
   upgrade:

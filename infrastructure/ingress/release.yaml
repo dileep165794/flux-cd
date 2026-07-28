@@ -15,7 +15,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: ingress-nginx
-        namespace: flux-personal-source
+        namespace: ingress-nginx
   values:
     controller:
       service:
