@@ -16,7 +16,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: flagger
-        namespace: flagger-system
+        namespace: flux-system
 
   values:
     meshProvider: nginx
