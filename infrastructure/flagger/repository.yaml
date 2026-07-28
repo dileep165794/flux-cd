@@ -3,7 +3,7 @@ kind: HelmRepository
 
 metadata:
   name: flagger
-  namespace: flux-personal-source
+  namespace: flux-system
 
 spec:
   interval: 1h
