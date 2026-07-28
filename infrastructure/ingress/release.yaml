@@ -23,6 +23,8 @@ spec:
         serviceMonitor:
           enabled: true
           namespace: monitoring
+          additionalLabels:
+            release: kube-prometheus-stack
       service:
         annotations:
           service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: "/healthz"
