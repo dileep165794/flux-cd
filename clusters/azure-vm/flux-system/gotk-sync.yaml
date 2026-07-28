@@ -22,6 +22,8 @@ metadata:
 spec:
   interval: 5m
   targetNamespace: boutique
+  install:
+    createNamespace: true
   chart:
     spec:
       chart: ./helm-chart
