@@ -37,7 +37,7 @@ metadata:
   name: boutique-apps
   namespace: flux-system
 spec:
-  interval: 10m0s
+  interval: 1m0s
   path: ./kubernetes-manifests
   prune: true
   targetNamespace: boutique
