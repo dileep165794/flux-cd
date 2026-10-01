@@ -1,0 +1,17 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: frontend
+  namespace: helm-test-dev-1790852789807
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: helm-chart/
+      sourceRef:
+        kind: GitRepository
+        name: frontend
+  values:
+    images:
+      repository: us-central1-docker.pkg.dev/google-samples/microservices-demo/adservice
+      tag: "v0.10.5"
