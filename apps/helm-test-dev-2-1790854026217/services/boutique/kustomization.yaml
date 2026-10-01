@@ -1,0 +1,12 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: helm-test-dev-2-1790854026217-boutique
+  namespace: flux-system
+spec:
+  interval: 5m
+  path: apps/helm-test-dev-2-1790854026217/services/boutique
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
