@@ -1,0 +1,10 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: boutiquetest
+  namespace: boutiquetest
+spec:
+  interval: 5m
+  url: https://github.com/Shiv0308/microservices-demo.git
+  ref:
+    branch: helm/Test
