@@ -1,0 +1,17 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: boutique-service
+  namespace: boutique-service
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: helm-chart/
+      sourceRef:
+        kind: GitRepository
+        name: boutique-service
+  values:
+    images:
+      repository: us-central1-docker.pkg.dev/google-samples/microservices-demo
+      tag: ""

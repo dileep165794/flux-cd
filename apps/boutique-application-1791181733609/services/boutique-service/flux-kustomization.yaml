@@ -1,0 +1,12 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: boutique-application-1791181733609-boutique-service
+  namespace: flux-system
+spec:
+  interval: 5m
+  path: apps/boutique-application-1791181733609/services/boutique-service
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
